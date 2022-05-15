@@ -173,9 +173,9 @@ private:
 	Shoe* begin;
 
 	//	Чтение из файла
-	void ost(fstream& fs);
+	void ReadFromSh(fstream& fs);
 	//	Запись в файл
-	void ist(fstream& fs);
+	void WriteInSh(fstream& fs);
 };
 
 //	Конструктор	/	Shoe_Shop
@@ -797,7 +797,7 @@ Shoes_Shop::Shoes_Shop()
 	if (!FILE_SHOES.is_open()) { cout << "Ошибка открытия файла! Данные не загружены!" << endl; }
 	else
 	{
-		ost(FILE_SHOES);
+		ReadFromSh(FILE_SHOES);
 		if (GetVol() != 0) cout << "Найдено " << GetVol() << " записей." << endl << endl;
 	}
 	FILE_SHOES.close();
@@ -806,7 +806,7 @@ Shoes_Shop::Shoes_Shop()
 Shoes_Shop::~Shoes_Shop()
 {
 	FILE_SHOES.open(ShoesFile, ios::out);
-	ist(FILE_SHOES);
+	WriteInSh(FILE_SHOES);
 	FILE_SHOES.close();
 
 	clear();
@@ -901,7 +901,7 @@ void Shoes_Shop::print_as(string art, int size)
 }
 
 //	Чтение из файла	/	Shoe_Shop
-void Shoes_Shop::ost(fstream& fs)
+void Shoes_Shop::ReadFromSh(fstream& fs)
 {
 	int count, size;
 	string art, name, make;
@@ -920,7 +920,7 @@ void Shoes_Shop::ost(fstream& fs)
 	}
 }
 //	Запись в файл	/	Shoe_Shop
-void Shoes_Shop::ist(fstream& fs)
+void Shoes_Shop::WriteInSh(fstream& fs)
 {
 	Shoe* temp = begin;
 
