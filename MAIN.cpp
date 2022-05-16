@@ -136,6 +136,8 @@ public:
 	void print();
 	//	Просмотр по определенному артиклу и размеру
 	void print_as(string art, int size);
+	//  Просмотр по бренду
+	void PrintShoesByBrand(string brand);
 
 	//	Возврат количество записей
 	int GetVol() { return Vol; }
@@ -178,10 +180,10 @@ private:
 	void WriteInSh(fstream& fs);
 };
 
-//	Конструктор	/	Shoe_Shop
+//	Конструктор	/	Shoes_Shop
 
 
-//	Перегрузка операторов потокового ввода и вывода	/	Shoe_Shop
+//	Перегрузка операторов потокового ввода и вывода	/	Shoes_Shop
 istream& operator >> (istream& is, Shoes_Shop& shs) { is >> shs; return is; }
 ostream& operator << (ostream& os, const Shoes_Shop& shs) { os << shs; return os; }
 
@@ -206,7 +208,7 @@ int main()
 				"\n\t2. Работа с данными" <<
 				"\n\tesc. Назад к авторизации" <<
 				"\n\t0. Выход\n\n";
-			cout << "Выберите >>>\n\n";
+			cout << "Выберите >>>";
 			choice = _getch();
 			system("cls");
 			switch (choice)
@@ -225,7 +227,7 @@ int main()
 				"\n\t1. Поиск" <<
 				"\n\tesc. Назад к авторизации" <<
 				"\n\t0. Выход\n\n";
-			cout << "Выберите >>>\n\n";
+			cout << "Выберите >>>";
 			choice = _getch();
 			system("cls");
 			switch (choice)
@@ -393,7 +395,7 @@ void ShoesProperties_Menu(Shoes_Shop& shoes, int access)
 			"\n\t1. Просмотр";
 		if (access == 1)
 			cout << "\n\t2. Добавление" << "\n\t3. Удаление";
-		cout << "\n\tesc. Назад\n\nВыберите >>>\n\n";
+		cout << "\n\tesc. Назад\n\nВыберите >>>";
 		choice = _getch();
 		system("cls");
 		if (access == 2)
@@ -405,7 +407,7 @@ void ShoesProperties_Menu(Shoes_Shop& shoes, int access)
 					"\n\t1. Просмотр";
 				if (access == 1)
 					cout << "\n\t2. Добавление" << "\n\t3. Удаление";
-				cout << "\n\tesc. Назад\n\nВыберите >>>\n";
+				cout << "\n\tesc. Назад\n\nВыберите >>>";
 				choice = _getch();
 				system("cls");
 			}
@@ -421,8 +423,9 @@ void ShoesProperties_Menu(Shoes_Shop& shoes, int access)
 			{
 				cout << "\t1. Все данные" <<
 					"\n\t2. По определенному артиклу и размеру" <<
+					"\n\t3. По бренду" <<
 					"\n\tesc. Назад\n\n";
-				cout << "Выберите >>>\n\n";
+				cout << "Выберите >>>";
 				choice = _getch();
 				system("cls");
 				switch (choice)
@@ -447,13 +450,19 @@ void ShoesProperties_Menu(Shoes_Shop& shoes, int access)
 					size = EnterNum();
 					shoes.print_as(art, size);
 					break;
+				case '3':
+					cout << "Желаемый бренд: ";
+					getline(cin, maker, '\n');
+					getline(cin, maker, '\n');
+					shoes.PrintShoesByBrand(maker);
+					break;
 				}
 			}
 			break;
 		case '2':
 			cout << "\n===== Добавление данных =====" << endl;
 			cout << "\t1. В начало\n" << "\t2. В конец\n" << "\tesc. Назад\n\n";
-			cout << "Выберите >>>\n";
+			cout << "Выберите >>>";
 			choice = _getch();
 			system("cls");
 			switch (choice)
@@ -464,7 +473,7 @@ void ShoesProperties_Menu(Shoes_Shop& shoes, int access)
 					"\n\t1. Ж (женская обувь)"
 					"\n\t2. М (мужская обувь)"
 					"\n\t3. Д (детская обувь)" << endl;
-				cout << "Выберите >>>\n";
+				cout << "Выберите >>>";
 				choice = _getch();
 				system("cls");
 				switch (choice)
@@ -493,7 +502,7 @@ void ShoesProperties_Menu(Shoes_Shop& shoes, int access)
 					"\n\t1. Ж (женская обувь)"
 					"\n\t2. М (мужская обувь)"
 					"\n\t3. Д (детская обувь)" << endl;
-				cout << "Выберите >>>\n";
+				cout << "Выберите >>>";
 				choice = _getch();
 				system("cls");
 				switch (choice)
@@ -802,7 +811,7 @@ Shoes_Shop::Shoes_Shop()
 	}
 	FILE_SHOES.close();
 }
-//	Деструктор	/	Shoe_Shop
+//	Деструктор	/	Shoes_Shop
 Shoes_Shop::~Shoes_Shop()
 {
 	FILE_SHOES.open(ShoesFile, ios::out);
@@ -812,13 +821,13 @@ Shoes_Shop::~Shoes_Shop()
 	clear();
 }
 
-//	Добавление в начало	/	Shoe_Shop
+//	Добавление в начало	/	Shoes_Shop
 void Shoes_Shop::PushFront(string art, string name, double price, string make, int size, int count)
 {
 	begin = new Shoe(art, name, price, make, size, count, begin);
 	Vol++;
 }
-//	Добавление в конец	/	Shoe_Shop
+//	Добавление в конец	/	Shoes_Shop
 void Shoes_Shop::PushBack(string art, string name, double price, string make, int size, int count)
 {
 	if (begin == nullptr) begin = new Shoe(art, name, price, make, size, count);
@@ -831,7 +840,7 @@ void Shoes_Shop::PushBack(string art, string name, double price, string make, in
 	Vol++;
 }
 
-//	Удаление первой записи	/	Shoe_Shop
+//	Удаление первой записи	/	Shoes_Shop
 void Shoes_Shop::pop_front()
 {
 	Shoe* temp = begin;
@@ -839,9 +848,9 @@ void Shoes_Shop::pop_front()
 	delete temp;
 	Vol--;
 }
-//	Удаление последней записи	/	Shoe_Shop
+//	Удаление последней записи	/	Shoes_Shop
 void Shoes_Shop::pop_back() { remove_At(Vol); }
-//	Удаление по определенному индексу(ИД)	/	Shoe_Shop
+//	Удаление по определенному индексу(ИД)	/	Shoes_Shop
 void Shoes_Shop::remove_At(const int index)
 {
 	if (index == 1) pop_front();
@@ -855,10 +864,10 @@ void Shoes_Shop::remove_At(const int index)
 		Vol--;
 	}
 }
-//	Удаление всех записей	/	Shoe_Shop
+//	Удаление всех записей	/	Shoes_Shop
 void Shoes_Shop::clear() { while (Vol) pop_front(); }
 
-//	Просмотр всех записей	/	Shoe_Shop
+//	Просмотр всех записей	/	Shoes_Shop
 void Shoes_Shop::print()
 {
 	Shoe* temp = begin;
@@ -887,6 +896,7 @@ void Shoes_Shop::print_as(string art, int size)
 	{
 		if (temp->Art == art && temp->Size == size)
 		{
+			cout << "= = = = = = = = = =" << endl;
 			cout << "ИД: " << i << endl;
 			cout << "Артикул: " << temp->Art << endl;
 			cout << "Наименование: " << temp->Name << endl;
@@ -900,7 +910,7 @@ void Shoes_Shop::print_as(string art, int size)
 	}
 }
 
-//	Чтение из файла	/	Shoe_Shop
+//	Чтение из файла	/	Shoes_Shop
 void Shoes_Shop::ReadFromSh(fstream& fs)
 {
 	int count, size;
@@ -919,7 +929,7 @@ void Shoes_Shop::ReadFromSh(fstream& fs)
 		PushBack(art, name, price, make, size, count);
 	}
 }
-//	Запись в файл	/	Shoe_Shop
+//	Запись в файл	/	Shoes_Shop
 void Shoes_Shop::WriteInSh(fstream& fs)
 {
 	Shoe* temp = begin;
@@ -932,6 +942,28 @@ void Shoes_Shop::WriteInSh(fstream& fs)
 		fs << temp->Make << endl;
 		fs << temp->Size << endl;
 		fs << temp->Count << endl;
+		temp = temp->pNext;
+	}
+}
+
+void Shoes_Shop::PrintShoesByBrand(string brand)
+{
+	Shoe* temp = begin;
+
+	for (int i = 1; temp != nullptr; i++)
+	{
+		if (temp->Make == brand)
+		{
+			cout << "= = = = = = = = = =" << endl;
+			cout << "ИД: " << i << endl;
+			cout << "Артикул: " << temp->Art << endl;
+			cout << "Наименование: " << temp->Name << endl;
+			cout << "Цена: " << temp->Price << endl;
+			cout << "Изготовитель: " << temp->Make << endl;
+			cout << "Размер: " << temp->Size << endl;
+			cout << "Количество пар: " << temp->Count << endl;
+			cout << "= = = = = = = = = =" << endl;
+		}
 		temp = temp->pNext;
 	}
 }
